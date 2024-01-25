@@ -8,7 +8,7 @@ namespace CompetitiontaskProjectMars.TestModel
 {
     public class Education
     {
-        public string InstituteName { get; set; }
+        public string UniversityName { get; set; }
         public string CountryOfCollege { get; set; }
         public string Title { get; set; }
         public string Degree { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CompetitiontaskProjectMars.Pages
 {
-    public class Login : CommonDriver
+    public class Login : CommonMethods.CommonDriver
     {
         private static IWebElement SignInButton => driver.FindElement(By.XPath("//*[@id=\"home\"]/div/div/div[1]/div/a"));
         private static IWebElement Email => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[1]/input"));
