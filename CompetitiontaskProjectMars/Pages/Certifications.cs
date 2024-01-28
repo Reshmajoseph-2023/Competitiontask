@@ -76,6 +76,7 @@ namespace CompetitiontaskProjectMars.Pages
         {
             Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
+            Thread.Sleep(3000);
 
             Wait.WaitToBeVisible(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/table/thead/tr/th[4]/div", 5);
             AddNew.Click();
@@ -136,6 +137,7 @@ namespace CompetitiontaskProjectMars.Pages
             Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
 
+            Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
             PencilIcon.Click();
             Thread.Sleep(2000);
 
@@ -146,7 +148,6 @@ namespace CompetitiontaskProjectMars.Pages
 
             Wait.WaitToBeVisible(driver, "Name", "certificationFrom", 3);
             CertifiedFrom.Clear();
-
             CertifiedFrom.SendKeys(updateInput.certifiedFrom);
             Thread.Sleep(2000);
 
@@ -189,8 +190,8 @@ namespace CompetitiontaskProjectMars.Pages
         public void DeleteCertification(Certification deleteInput)
         {
 
-               Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Certifications']", 5);
-               CertificationTab.Click();
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            CertificationTab.Click();
 
             if (editedCertificationName.Text == deleteInput.certificateorAward)
             {
@@ -199,10 +200,7 @@ namespace CompetitiontaskProjectMars.Pages
                 Thread.Sleep(2000);
 
                 //Wait for the popup message window to display
-                Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
-                Thread.Sleep(2000);
-
-                //Get the POPup Message text
+                Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 5);
                 string actualMessage = ActualMessage.Text;
                 Console.WriteLine(actualMessage);
 
@@ -219,30 +217,24 @@ namespace CompetitiontaskProjectMars.Pages
             return deletedCertificate.Text;
         }
 
-        public string getMessage()
-        {
-            Thread.Sleep(4000);
-
-            //Get the text message 
-            return ActualMessage.Text;
-        }
-
         //Cancel while a record is updating
         public void CancelFunction()
         {
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
-            Thread.Sleep(5000);
             //Click on UpdateIcon
+            Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
             PencilIcon.Click();
-            Thread.Sleep(5000);
             //Click on Cancel button
+            Wait.WaitToBeClickable(driver, "XPath", "//input[@value= 'Cancel']", 10);
             CancelButton.Click();
 
         }
         public void AssertionCancel()
         {
-            Thread.Sleep(5000);
+
             //Click on Certification tab
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
 
          }

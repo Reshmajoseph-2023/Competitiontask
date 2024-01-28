@@ -20,25 +20,19 @@ namespace CompetitiontaskProjectMars.Utilities
         }
 
         #endregion
-
-        //Screenshots
-        #region screenshots
-        public class CaptureScreenshot
+        //LoadJson
+        #region loadjson
+        public class LoadJson
         {
-            public static string SaveScreenshot(IWebDriver driver, string ScreenShotFileName)
+            public static List<T> Read<T>(string filePath)
             {
-
-                ITakesScreenshot screenshotDriver = (ITakesScreenshot)driver;
-                Screenshot screenshot = screenshotDriver.GetScreenshot();
-                string screenshotTitle = Path.Combine("Screenshots", $"{ScreenShotFileName}" + DateTime.Now.ToString("_dd-mm-yyyy_mss"));
-                string screenshotFolderLocation = Path.Combine("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\Screenshots\\", screenshotTitle);
-                screenshot.SaveAsFile(screenshotFolderLocation + ImageFormat.Png);
-                return screenshotFolderLocation;
-
+                string text = File.ReadAllText(filePath);
+                List<T> testData = JsonConvert.DeserializeObject<List<T>>(text);
+                return testData;
             }
         }
-
         #endregion
+
         //ExtentReports
         #region reports
         public class ExtentReportsM
@@ -63,18 +57,23 @@ namespace CompetitiontaskProjectMars.Utilities
         }
         #endregion
 
-        //LoadJson
-        #region loadjson
-        public class LoadJson
+        //Screenshots
+        #region screenshots
+        public class CaptureScreenshot
         {
-            public static List<T> Read<T>(string filePath)
+            public static string SaveScreenshot(IWebDriver driver, string ScreenShotFileName)
             {
-            string text = File.ReadAllText(filePath);
-            List<T> testData = JsonConvert.DeserializeObject<List<T>>(text);
-            return testData;
+                ITakesScreenshot screenshotDriver = (ITakesScreenshot)driver;
+                Screenshot screenshot = screenshotDriver.GetScreenshot();
+                string screenshotTitle = Path.Combine("Screenshots", $"{ScreenShotFileName}" + DateTime.Now.ToString("_dd-mm-yyyy_mss"));
+                string screenshotFolderLocation = Path.Combine(@"E:\CompetitiontaskProjectMars\CompetitiontaskProjectMars", screenshotTitle);
+                screenshot.SaveAsFile(screenshotFolderLocation + ImageFormat.Png);
+                return screenshotFolderLocation;
+
             }
         }
-#endregion
+        #endregion
+        
     }
 }
 

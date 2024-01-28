@@ -1,16 +1,9 @@
 ﻿using CompetitiontaskProjectMars.TestModel;
 using CompetitiontaskProjectMars.Utilities;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace CompetitiontaskProjectMars.Pages
 {
@@ -28,8 +21,9 @@ namespace CompetitiontaskProjectMars.Pages
         private static IWebElement getEditedUniversityName => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[1]"));
         private static IWebElement  deletedEducation => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[1]"));
         private static IWebElement PencilIcon => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[1]"));
+        private static IWebElement UpdateButton => driver.FindElement(By.XPath("//input[contains(@value, 'Update')]"));
         private static IWebElement messageBox => driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
-        private static IWebElement newUniversityName => driver.FindElement(By.XPath("(//*[@class= 'ui fixed table'])[3]/tbody[last()]/tr/td[2]"));
+        private static IWebElement newUniversityName => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[last()]/tr/td[2]"));
         private static IWebElement CancelButton => driver.FindElement(By.XPath("//input[@value= 'Cancel']"));
         private static IWebElement deleteIcon => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[6]/span[2]/i"));
 
@@ -76,7 +70,7 @@ namespace CompetitiontaskProjectMars.Pages
 
             //Click AddNew button on Education tab
             Wait.WaitToBeClickable(driver, "XPath", "//div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div", 3);
-            AddButton.Click();
+            AddNewButton.Click();
 
             //Enter University/Institute Name
             Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
@@ -136,7 +130,7 @@ namespace CompetitiontaskProjectMars.Pages
         }
         public string GetUniversityName()
         {
-            Thread.Sleep(2000);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[2]", 3);
             return newUniversityName.Text;
         }
         public void UpdateEducation(Education updateInput)
@@ -149,9 +143,10 @@ namespace CompetitiontaskProjectMars.Pages
 
             PencilIcon.Click();
             Thread.Sleep(2000);
-
+            
+            Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
+            CollegeName.Click();
             CollegeName.Clear();
-            Thread.Sleep(2000);
             CollegeName.SendKeys(updateInput.UniversityName);
 
             Wait.WaitToBeVisible(driver, "Name", "country", 3);
@@ -160,20 +155,20 @@ namespace CompetitiontaskProjectMars.Pages
 
             Wait.WaitToBeVisible(driver, "Name", "title", 3);
             Title.Click();
+            Title.Clear();
             Title.SendKeys(updateInput.Title);
 
             Wait.WaitToBeVisible(driver, "Name", "degree", 3);
             Degree.Clear();
             Degree.SendKeys(updateInput.Degree);
 
-            Wait.WaitToBeClickable(driver, "Name", "yearOfGraduation", 3);
+            Wait.WaitToBeVisible(driver, "Name", "yearOfGraduation", 3);
             YearOfGraduation.Click();
             YearOfGraduation.SendKeys(updateInput.YearOfGraduation);
 
             //click on update button
             Wait.WaitToBeClickable(driver, "XPath", "//input[contains(@value, 'Update')]", 3);
-            IWebElement updateButton = driver.FindElement(By.XPath("//input[contains(@value, 'Update')]"));
-            updateButton.Click();
+            UpdateButton.Click();
             Thread.Sleep(3000);
 
             //Wait for the popup message window to display
@@ -196,10 +191,10 @@ namespace CompetitiontaskProjectMars.Pages
             else if (actualMessage == expectedMessage2 || actualMessage == expectedMessage3 || actualMessage == expectedMessage4)
             {
 
-                Thread.Sleep(2000);
+                Wait.WaitToBeVisible(driver, "XPath", "//input[@value= 'Cancel']", 3);
                 CancelButton.Click();
             }
-            Thread.Sleep(3000);
+           
         }
         public string GetEditedUniversityName()
         {
@@ -220,8 +215,6 @@ namespace CompetitiontaskProjectMars.Pages
 
                 //Wait for the popup message window to display
                 Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
-                Thread.Sleep(2000);
-
                 //Get the Popup Message text
                 string ActualMessage = actualMessage.Text;
                 Console.WriteLine(ActualMessage);
@@ -238,13 +231,7 @@ namespace CompetitiontaskProjectMars.Pages
             Thread.Sleep(2000);
             return deletedEducation.Text;
         }
-        public string getMessage()
-        {
-             Thread.Sleep(4000);
-            
-             //Get the text message 
-             return actualMessage.Text;
-        }
+        
         public void CancelFunction()
         {
              EducationTab.Click();

@@ -1,21 +1,12 @@
 ﻿using AventStack.ExtentReports;
-
 using CompetitiontaskProjectMars.Pages;
 using CompetitiontaskProjectMars.TestModel;
 using CompetitiontaskProjectMars.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using RazorEngine;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using System.Drawing.Imaging;
+
 
 
 namespace CompetitiontaskProjectMars.Tests
@@ -49,7 +40,9 @@ namespace CompetitiontaskProjectMars.Tests
         public void DeleteExistingRecords_Test()
 
         {
+            test = extent.CreateTest("DeleteExistingRecords_Test").Info("Test- Delete existing records Started");
             CertificationPageObj.DeleteExistingRecords();
+            test.Pass("Test passed");
         }
 
         [Test, Order(2)]
@@ -57,7 +50,7 @@ namespace CompetitiontaskProjectMars.Tests
 
         {
             // Create an ExtentTest instance
-            test = extent.CreateTest("AddNewCertification_Test").Info("Test Started");
+            test = extent.CreateTest("AddNewCertification_Test").Info("Test- Add New Certification Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\AddValidCertificationDetails.json");
             foreach (var  input in item)
             {
@@ -72,15 +65,11 @@ namespace CompetitiontaskProjectMars.Tests
 
                 string actualCertificateName = CertificationPageObj.GetCertificateName();
 
-                //if (input.certificateorAward==newRecordCertificateName)
-                //{
+                
                     test.Log(Status.Pass, "Test Passed, Added certifcation successfully");
-                //    //CaptureScreenshot.SaveScreenshot(driver, "Certifications Record added");
-                //    test.Info("Details", MediaEntityBuilder.CreateScreenCaptureFromPath("\\Screenshots\\" + "Certifications Record added" + ".png").Build());
-
-                //}
+                
                
-                Assert.That(input.certificateorAward, Is.EqualTo(actualCertificateName), "Added Certifications and expected Certifications does not match.");
+                Assert.That(input.certificateorAward, Is.EqualTo(actualCertificateName), "Actual Certifications and expected Certifications does not match.");
                 
             }
         }
@@ -88,7 +77,7 @@ namespace CompetitiontaskProjectMars.Tests
         public void InvalidCertificationDetails1_Test()
         {
             // Create an ExtentTest instance
-            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test3 Started");
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- InvalidCertificationDetails-Acceptance of more than 100 characters Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails1.json");
             //try
             //{
@@ -102,34 +91,25 @@ namespace CompetitiontaskProjectMars.Tests
                     Console.WriteLine(certifiedFrom);
                     string certifiedYear = input.certifiedYear;
                     Console.WriteLine(certifiedYear);
-                    CertificationPageObj.AddNewCertification(input);
-                    int s = certificateName.Length;
-                    Assert.That(s <= 100, "Dont accept more than 100 chars");
-                    //if (input.certificateorAward )
-                    //{
-                    //    test.Log(Status.Fail, "Test Failed, Not Added certifcation successfully");
-                    //CaptureScreenshot.SaveScreenshot(driver, "Certifications Record added");
-                //    if(s>=100)
-                //{
-                //    Assert.Fail("CertificateorAwardName field do not accept special characters");
-                //    test.Info("Details", MediaEntityBuilder.CreateScreenCaptureFromPath("\\Screenshots\\" + "Certifications Record added" + ".png").Build()); }
-                    
+                CertificationPageObj.AddNewCertification(input);
+                //int l = certificateName.Length;
+                //Assert.That(l <= 100, "Dont accept more than 100 chars");
+                //Assert.Fail( "Dont accept more than 100 chars");
+                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "InvalidCertificationDetails1");
+               
+                   test.Log(Status.Fail, "ScreenshotInvalidCertificationDetails1", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder).Build());
+                
+               
+               
+                //    test.Log(Status.Fail, e.ToString());
+                //}
 
-                    //    }
-                    //}
-                    //}
-                    //catch (Exception e)
-                    //{
-
-                    //    test.Log(Status.Fail, e.ToString());
-                    //}
-
-                }
+            }
             }
         [Test, Order(4)]
         public void InvalidCertificationDetails2_Test()
         {
-
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- InvalidCertificationDetails-special characters Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails2.json");
             foreach (var input in item)
             {
@@ -142,11 +122,11 @@ namespace CompetitiontaskProjectMars.Tests
                 string certifiedYear = input.certifiedYear;
                 Console.WriteLine(certifiedYear);
                 CertificationPageObj.AddNewCertification(input);
-                string sub = "@%!&";
+                string chars = "@%!&";
 
-                if (input.certificateorAward.Contains(sub))
+                if (input.certificateorAward.Contains(chars) || input.certifiedFrom.Contains(chars))
                 {
-                    Assert.Fail("CertificateorAwardName field do not accept special characters");
+                    Assert.Fail("Special characters are not allowed");
                 }
 
             }
@@ -154,7 +134,7 @@ namespace CompetitiontaskProjectMars.Tests
         [Test, Order(5)]
         public void InvalidCertificationDetails3_Test()
         {
-
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- InvalidCertificationDetails-Numerics Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails3.json");
             foreach (var input in item)
             {
@@ -167,11 +147,11 @@ namespace CompetitiontaskProjectMars.Tests
                 string certifiedYear = input.certifiedYear;
                 Console.WriteLine(certifiedYear);
                 CertificationPageObj.AddNewCertification(input);
-                string sub = "123";
+                string num = "123";
 
-                if (input.certificateorAward.Contains(sub))
+                if (input.certificateorAward.Contains(num)|| input.certifiedFrom.Contains(num))
                 {
-                    Assert.Fail("CertificateorAwardName field do not accept numerics");
+                    Assert.Fail("Numerics are not allowed");
                 }
 
 
@@ -182,6 +162,7 @@ namespace CompetitiontaskProjectMars.Tests
         public void UpdateCertification_Test()
 
         {
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- Update Certification Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\UpdateCertificate.json");
             foreach (var updateInput in item)
             {
@@ -191,13 +172,14 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(certifiedFrom);
                 string certifiedYear = updateInput.certifiedYear;
                 Console.WriteLine(certifiedYear);
+                test.Pass("Test passed");
                 CertificationPageObj.EditCertification(updateInput);
             }
         }
         [Test, Order(7)]
         public void DeleteCertification_Test()
         {
-
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- Delete Certification Started");
             List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\DeleteCertificate.json");
             foreach (var deleteInput in item)
             {
@@ -207,7 +189,7 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(certifiedFrom);
                 string certifiedYear = deleteInput.certifiedYear;
                 Console.WriteLine(certifiedYear);
-
+                test.Pass("Test passed");
                 CertificationPageObj.DeleteCertification(deleteInput);
                 string deletedLanguage = CertificationPageObj.getDeletedCertificate();
                 Assert.That(deletedLanguage != deleteInput.certificateorAward, "Expected language has not been deleted");
@@ -218,9 +200,11 @@ namespace CompetitiontaskProjectMars.Tests
 
         [Test, Order(8)]
         public void CancelCertification_Test()
-        { 
-              CertificationPageObj.CancelFunction();
-              CertificationPageObj.AssertionCancel();
+        {
+            test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test- Cancel Certification Started");
+            CertificationPageObj.CancelFunction();
+            test.Pass("Test passed");
+            CertificationPageObj.AssertionCancel();
                    
         }
 

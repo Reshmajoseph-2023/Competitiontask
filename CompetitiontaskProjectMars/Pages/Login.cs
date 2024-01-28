@@ -10,11 +10,11 @@ namespace CompetitiontaskProjectMars.Pages
 {
     public class Login : CommonMethods.CommonDriver
     {
-        private static IWebElement SignInButton => driver.FindElement(By.XPath("//*[@id=\"home\"]/div/div/div[1]/div/a"));
-        private static IWebElement Email => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[1]/input"));
-        private static IWebElement Password => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[2]/input"));
-        private static IWebElement RememberMe => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[3]/div/input"));
-        private static IWebElement loginbutton => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[4]/button"));
+        private static IWebElement SignInButton => driver.FindElement(By.XPath("//a[text()='Sign In']"));
+        private static IWebElement Email => driver.FindElement(By.Name("email"));
+        private static IWebElement Password => driver.FindElement(By.Name("password"));
+        private static IWebElement RememberMe => driver.FindElement(By.Name("rememberDetails"));
+        private static IWebElement loginbutton => driver.FindElement(By.XPath("//button[text()='Login']"));
 
         public void LoginSteps()
         {
