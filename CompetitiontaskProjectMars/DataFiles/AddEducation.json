@@ -2,15 +2,15 @@
   {
     "UniversityName": "MG University",
     "CountryOfCollege": "India",
-    "Title": "BTech",
+    "Title": "B.Tech",
     "Degree": "Bachelor of Technology",
     "YearOfGraduation": "2000"
   },
   {
-    "UniversityName": "Cusat University",
+    "UniversityName": "MG University",
     "CountryOfCollege": "India",
-    "Title": "BA",
-    "Degree": "Bachelor of Arts",
+    "Title": "B.Tech",
+    "Degree": "Bachelor of Technology",
     "YearOfGraduation": "2010"
   },
   {
@@ -20,18 +20,19 @@
     "Degree": "",
     "YearOfGraduation": "2000"
   },
+
   {
     "UniversityName": "MG University",
     "CountryOfCollege": "India",
-    "Title": "BTech",
+    "Title": "B.Tech",
     "Degree": "Bachelor of Technology",
-    "YearOfGraduation": "2001"
+    "YearOfGraduation": "2000"
   },
   {
     "UniversityName": "MG University",
     "CountryOfCollege": "India",
-    "Title": "BTech",
-    "Degree": "Bachelor of Technology",
+    "Title": "B.Tech",
+    "Degree": "    ",
     "YearOfGraduation": "2000"
   }
   

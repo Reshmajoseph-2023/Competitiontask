@@ -5,36 +5,44 @@ using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin.Model;
+using Microsoft.VisualBasic;
+using System.Security.Cryptography.X509Certificates;
+using System.Drawing.Imaging;
 
 namespace CompetitiontaskProjectMars.Tests
 {
+    
     [TestFixture]
     public class Education_Tests : CommonMethods.CommonDriver
     {
-        private ExtentReports extent;
-        private ExtentTest test;
-
         Login LoginPageObj;
         Educations EducationPageObj;
+        
+        private ExtentTest test;
+        private ExtentReports extent = CommonMethods.ExtentReportsM.getReport();
+
         public Education_Tests()
         {
             LoginPageObj = new Login();
             EducationPageObj = new Educations();
         }
+
         [SetUp]
-        public void CertficationSetUp()
+        public void EducationSetUp()
         {
-            extent = CommonMethods.ExtentReportsM.getReport();
-            //Open Chrome browser
             driver = new ChromeDriver();
-            // Login page object initialization and definition
             LoginPageObj.LoginSteps();
         }
+
         [Test, Order(1)]
         public void DeleteExistingRecords_Test()
 
         {
+            test = extent.CreateTest("DeleteExistingRecords_Test").Info("Test1 Started- Deleting existing education records ");
             EducationPageObj.DeleteExistingRecords();
+            Console.WriteLine("Existing educational records are deleted successfully");
+            test.Pass("Test passed");
         }
 
         [Test, Order(2)]
@@ -42,7 +50,7 @@ namespace CompetitiontaskProjectMars.Tests
 
         {
             // Create an ExtentTest instance
-            test = extent.CreateTest("AddNewCertification_Test").Info("Test Started");
+            test = extent.CreateTest("AddNewEducation_Test").Info("Test2- Add New Education record Started");
 
             List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\AddEducation.json");
 
@@ -60,96 +68,149 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(YearOfGraduation);
                 EducationPageObj.AddNewEducation(input);
                 string actualUniversityName = EducationPageObj.GetUniversityName();
+                test.Log(Status.Pass, "Test Passed");
+                Assert.That(input.UniversityName, Is.EqualTo(actualUniversityName), "Actual Education and expected education does not match.");
             }
         }
+
         [Test, Order(3)]
         public void InvalidEducationDetails1_Test()
 
-        {
-            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails1.json");
-
-            foreach (var input in item)
+        { // Create an ExtentTest instance
+            test = extent.CreateTest("InvalidEducationDetails1_Test").Info("Test3 Started- InvalidEducationDetails-Acceptance of more than 100 characters ");
+            List <Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidEducationDetails1.json"); 
+            try
             {
-                string UniversityName = input.UniversityName;
-                Console.WriteLine(UniversityName);
-                string CountryOfCollege = input.CountryOfCollege;
-                Console.WriteLine(CountryOfCollege);
-                string Title = input.Title;
-                Console.WriteLine(Title);
-                string Degree = input.Degree;
-                Console.WriteLine(Degree);
-                string YearOfGraduation = input.YearOfGraduation;
-                Console.WriteLine(YearOfGraduation);
-                EducationPageObj.AddNewEducation(input);
-              
-                int s = UniversityName.Length;
-                Assert.That(s <= 100, "Dont accept more than 100 chars");
+                foreach (var input in item)
+                {
+                    string UniversityName = input.UniversityName;
+                    Console.WriteLine(UniversityName);
+                    string CountryOfCollege = input.CountryOfCollege;
+                    Console.WriteLine(CountryOfCollege);
+                    string Title = input.Title;
+                    Console.WriteLine(Title);
+                    string Degree = input.Degree;
+                    Console.WriteLine(Degree);
+                    string YearOfGraduation = input.YearOfGraduation;
+                    Console.WriteLine(YearOfGraduation);
+                    EducationPageObj.AddNewEducation(input);
+
+                    int l = UniversityName.Length;
+                    if (l >= 100)
+                    {
+                        Assert.Fail("More than 100 chars are not allowed");
+                    }
+                }
+            }
+
+            catch (Exception e)
+
+            {
+                //Log screenshot
+                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "100 chars-InvalidEducationDetails1");
+                test.Log(Status.Fail, "Screenshot of accepting more than 100characters", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
+                //Log error into extent reports
+                test.Log(Status.Fail, e.ToString());
+
+
             }
         }
+
         [Test, Order(4)]
         public void InvalidEducationDetails2_Test()
 
         {
-            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails2.json");
-
-            foreach (var input in item)
+            test = extent.CreateTest("InvalidEducationDetails2_Test").Info("Test4 Started- InvalidEducationDetails2-Acceptance of special characters");
+            List <Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidEducationDetails2.json");
+            try
             {
-                string UniversityName = input.UniversityName;
-                Console.WriteLine(UniversityName);
-                string CountryOfCollege = input.CountryOfCollege;
-                Console.WriteLine(CountryOfCollege);
-                string Title = input.Title;
-                Console.WriteLine(Title);
-                string Degree = input.Degree;
-                Console.WriteLine(Degree);
-                string YearOfGraduation = input.YearOfGraduation;
-                Console.WriteLine(YearOfGraduation);
-                EducationPageObj.AddNewEducation(input);
-                string sub = "@%!&";
-
-                if (input.UniversityName.Contains(sub))
+                foreach (var input in item)
                 {
-                    Assert.Fail("CertificateorAwardName field do not accept special characters");
+                    string UniversityName = input.UniversityName;
+                    Console.WriteLine(UniversityName);
+                    string CountryOfCollege = input.CountryOfCollege;
+                    Console.WriteLine(CountryOfCollege);
+                    string Title = input.Title;
+                    Console.WriteLine(Title);
+                    string Degree = input.Degree;
+                    Console.WriteLine(Degree);
+                    string YearOfGraduation = input.YearOfGraduation;
+                    Console.WriteLine(YearOfGraduation);
+                    EducationPageObj.AddNewEducation(input);
+
+                    string sub = "@%!&";
+                    if (input.UniversityName.Contains(sub))
+                    {
+                        Assert.Fail("Special characters are not allowed");
+                    }
                 }
+
+            }
+            catch (Exception e)
+
+            {
+                //Log screenshot
+                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "special characters-InvalidEducationDetails2");
+                test.Log(Status.Fail, "Screenshot of accepting special characters", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
+                //Log error into extent reports
+                test.Log(Status.Fail, e.ToString());
+
             }
         }
+
         [Test, Order(5)]
         public void InvalidEducationDetails3_Test()
 
         {
-            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails3.json");
-
-            foreach (var input in item)
+            test = extent.CreateTest("InvalidEducationDetails3_Test").Info("Test5 Started- InvalidEducationDetails-Acceptance of numerics");
+            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidEducationDetails3.json");
+            try
             {
-                string UniversityName = input.UniversityName;
-                Console.WriteLine(UniversityName);
-                string CountryOfCollege = input.CountryOfCollege;
-                Console.WriteLine(CountryOfCollege);
-                string Title = input.Title;
-                Console.WriteLine(Title);
-                string Degree = input.Degree;
-                Console.WriteLine(Degree);
-                string YearOfGraduation = input.YearOfGraduation;
-                Console.WriteLine(YearOfGraduation);
-                EducationPageObj.AddNewEducation(input);
-                string sub = "123";
-
-                if (input.UniversityName.Contains(sub))
+                foreach (var input in item)
                 {
-                    Assert.Fail("CertificateorAwardName field do not accept numerics");
-                }
+                    string UniversityName = input.UniversityName;
+                    Console.WriteLine(UniversityName);
+                    string CountryOfCollege = input.CountryOfCollege;
+                    Console.WriteLine(CountryOfCollege);
+                    string Title = input.Title;
+                    Console.WriteLine(Title);
+                    string Degree = input.Degree;
+                    Console.WriteLine(Degree);
+                    string YearOfGraduation = input.YearOfGraduation;
+                    Console.WriteLine(YearOfGraduation);
+                    EducationPageObj.AddNewEducation(input);
 
+                    string sub = "123";
+                    if (input.UniversityName.Contains(sub))
+                    {
+                      Assert.Fail("Numerics are not allowed");
+                    }
+
+                }
+            }
+            catch (Exception e)
+
+            {
+                //Log screenshot
+                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "Numerics-InvalidEducationDetails3");
+                test.Log(Status.Fail, "Screenshot of accepting numerics", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
+                //Log error into extent reports
+                test.Log(Status.Fail, e.ToString());
 
             }
-        
+
         }
+
         [Test, Order(6)]
         public void InvalidEducationDetails4_Test()
 
         {
-            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails4.json");
-            foreach (var input in item)
+            test = extent.CreateTest("InvalidEducationDetails4_Test").Info("Test6 Started- InvalidEducationDetails-Acceptance of numerics");
+            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidEducationDetails4.json");
+            try
             {
+                foreach (var input in item)
+                {
                 string UniversityName = input.UniversityName;
                 Console.WriteLine(UniversityName);
                 string CountryOfCollege = input.CountryOfCollege;
@@ -161,21 +222,35 @@ namespace CompetitiontaskProjectMars.Tests
                 string YearOfGraduation = input.YearOfGraduation;
                 Console.WriteLine(YearOfGraduation);
                 EducationPageObj.AddNewEducation(input);
+                
+                string sub = "123";
+                if (input.Degree.Contains(sub))
+                {
+                  Assert.Fail("Numerics are not allowed for degree field");
+                }
+
+                }
+            }
+            catch (Exception e)
+
+            {
+                //Log screenshot
+                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "Numerics-InvalidEducationDetails3");
+                test.Log(Status.Fail, "Screenshot of accepting numerics", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
+                //Log error into extent reports
+                test.Log(Status.Fail, e.ToString());
+
             }
         }
 
         [Test, Order(7)]
-
         public void UpdateEducation_Test()
 
         {
-
-
-            List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\UpdateEducation.json");
-
+            test = extent.CreateTest("UpdateEducation_Test").Info("Test7 Started-Update Education");
+            List <Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\UpdateEducation.json"); 
             foreach (var updateInput in item)
             {
-
                 string UniversityName = updateInput.UniversityName;
                 Console.WriteLine(UniversityName);
                 string CountryOfCollege = updateInput.CountryOfCollege;
@@ -186,14 +261,16 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(Degree);
                 string YearOfGraduation = updateInput.YearOfGraduation;
                 Console.WriteLine(YearOfGraduation);
+                test.Pass("Test passed");
                 EducationPageObj.UpdateEducation(updateInput);
+                
             }
         }
 
         [Test, Order(8)]
         public void DeleteEducation_Test()
         {
-
+            test = extent.CreateTest("DeleteEducation_Test").Info("Test8 Started- Delete Education ");
             List<Education> item = CommonMethods.LoadJson.Read<Education>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\DeleteEducation.json");
             foreach (var deleteInput in item)
             {
@@ -208,23 +285,26 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(Degree);
                 string YearOfGraduation = deleteInput.YearOfGraduation;
                 Console.WriteLine(YearOfGraduation);
+                EducationPageObj.DeleteEducation(deleteInput);
 
-                try
-                {
-                    EducationPageObj.DeleteEducation(deleteInput);
-
+                if(deleteInput.UniversityName != "Database")
+                { 
+                    test.Log(Status.Fail,"Test Failed, Element to delete does not found"); 
                 }
-                catch (NoSuchElementException)
+                else
                 {
-
-                    Console.WriteLine($"DeleteCertification element not found for certificateName: {deleteInput.UniversityName}");
+                    test.Log(Status.Pass, "Test Passed");
                 }
+                
             }
         }
+        
+    
         [Test, Order(9)]
-        public void CancelCertification_Test()
+        public void CancelEducation_Test()
         {
-            EducationPageObj.CancelFunction();
+            test = extent.CreateTest("Cancel Education_Test").Info("Test9 Started- Cancel Education");
+            test.Pass("Test passed");
             EducationPageObj.AssertionCancel();
 
         }

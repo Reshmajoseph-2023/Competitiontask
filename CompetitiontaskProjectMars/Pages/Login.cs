@@ -18,8 +18,8 @@ namespace CompetitiontaskProjectMars.Pages
 
         public void LoginSteps()
         {
-            driver.Navigate().GoToUrl("http://localhost:5000/");
             driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("http://localhost:5000/Home");
             SignInButton.Click();
             Thread.Sleep(1000);
             Email.SendKeys("reshmajoseph1201@gmail.com");
