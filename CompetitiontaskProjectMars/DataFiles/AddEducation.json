@@ -1,0 +1,39 @@
+[
+  {
+    "UniversityName": "MG University",
+    "CountryOfCollege": "India",
+    "Title": "B.Tech",
+    "Degree": "Bachelor of Technology",
+    "YearOfGraduation": "2000"
+  },
+  {
+    "UniversityName": "MG University",
+    "CountryOfCollege": "India",
+    "Title": "B.Tech",
+    "Degree": "Bachelor of Technology",
+    "YearOfGraduation": "2010"
+  },
+  {
+    "UniversityName": "MG University",
+    "CountryOfCollege": "India",
+    "Title": "",
+    "Degree": "",
+    "YearOfGraduation": "2000"
+  },
+
+  {
+    "UniversityName": "MG University",
+    "CountryOfCollege": "India",
+    "Title": "B.Tech",
+    "Degree": "Bachelor of Technology",
+    "YearOfGraduation": "2000"
+  },
+  {
+    "UniversityName": "MG University",
+    "CountryOfCollege": "India",
+    "Title": "B.Tech",
+    "Degree": "    ",
+    "YearOfGraduation": "2000"
+  }
+  
+]
