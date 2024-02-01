@@ -21,7 +21,7 @@ namespace CompetitiontaskProjectMars.Pages
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("http://localhost:5000/Home");
             SignInButton.Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             Email.SendKeys("reshmajoseph1201@gmail.com");
             Password.SendKeys("Docker2023");
             RememberMe.Click();

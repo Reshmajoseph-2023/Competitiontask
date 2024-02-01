@@ -22,24 +22,14 @@ namespace CompetitiontaskProjectMars.Tests
         Certifications CertificationPageObj;
 
         public static ExtentTest test;
-        public static ExtentReports extent= CommonMethods.ExtentReportsM.getReport();
+        public static ExtentReports extent = CommonMethods.ExtentReportsM.getReport();
+                
         public Certification_Tests()
         {
             LoginPageObj = new Login();
             CertificationPageObj = new Certifications();
 
         }
-        [OneTimeSetUp]
-        public static void ExtentStart()
-        {
-            CommonMethods.ExtentReportsM.getReport();
-        }
-        [OneTimeTearDown]
-        public static void ExtentClose()
-        {
-            extent.Flush();
-        }
-
 
         [SetUp]
         public void CertficationSetUp()
@@ -111,10 +101,9 @@ namespace CompetitiontaskProjectMars.Tests
             catch (Exception e)
 
             {
-                //Log screenshot
+                //Log screenshot 
                 string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "100 chars-InvalidCertificationDetails1");
                 test.Log(Status.Fail, "Screenshot of accepting more than 100characters", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
-              
                 //Log error into extent reports
                 test.Log(Status.Fail, e.ToString());
                
@@ -132,7 +121,6 @@ namespace CompetitiontaskProjectMars.Tests
                 {
 
                    string certificateName = input.certificateorAward;
-
                    Console.WriteLine(certificateName);
                    string certifiedFrom = input.certifiedFrom;
                    Console.WriteLine(certifiedFrom);
@@ -171,7 +159,6 @@ namespace CompetitiontaskProjectMars.Tests
                 {
 
                 string certificateName = input.certificateorAward;
-
                 Console.WriteLine(certificateName);
                 string certifiedFrom = input.certifiedFrom;
                 Console.WriteLine(certifiedFrom);
@@ -180,7 +167,6 @@ namespace CompetitiontaskProjectMars.Tests
                 CertificationPageObj.AddNewCertification(input);
                 
                 string num = "123";
-
                 if (input.certificateorAward.Contains(num)|| input.certifiedFrom.Contains(num))
                 {
                    Assert.Fail("Numerics are not allowed");

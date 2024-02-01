@@ -18,12 +18,11 @@ namespace CompetitiontaskProjectMars.Pages
         private static IWebElement Degree => driver.FindElement(By.Name("degree"));
         private static IWebElement YearOfGraduation => driver.FindElement(By.Name("yearOfGraduation"));
         private static IWebElement AddButton => driver.FindElement(By.XPath("//input [contains (@class, 'ui teal button')]"));
-        private static  IWebElement actualMessage => driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
         private static IWebElement getEditedUniversityName => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[2]"));
         private static IWebElement  deletedEducation => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[1]"));
         private static IWebElement PencilIcon => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[1]/tr/td[6]/span[1]/i"));
         private static IWebElement UpdateButton => driver.FindElement(By.XPath("//input[contains(@value, 'Update')]"));
-        private static IWebElement messageBox => driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+        private static IWebElement ActualMessage => driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
         private static IWebElement newUniversityName => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody[last()]/tr/td[2]"));
         private static IWebElement CancelButton => driver.FindElement(By.XPath("//input[@value= 'Cancel']"));
         private static IWebElement deleteIcon => driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[6]/span[2]/i"));
@@ -108,7 +107,7 @@ namespace CompetitiontaskProjectMars.Pages
             CommonMethods. Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             Thread.Sleep(3000);
 
-            string actualMessage = messageBox.Text;
+            string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
             
             //verify the expected message text
@@ -117,15 +116,15 @@ namespace CompetitiontaskProjectMars.Pages
             string expectedMessage3 = "Education information was invalid";
             string expectedMessage4 = "Please enter all the fields";
             string expectedMessage5 = "Duplicated data";
-            
+
             if (actualMessage == expectedMessage2 || actualMessage == expectedMessage3 || actualMessage == expectedMessage4 || actualMessage == expectedMessage5)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(9000);
                 CancelButton.Click();
             }
             else if (actualMessage == expectedMessage1)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(9000);
                 Console.WriteLine("Education record added successfully");
             }
 
@@ -177,7 +176,7 @@ namespace CompetitiontaskProjectMars.Pages
             //Wait for the popup message window to display
             CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             //Get the POPup Message text
-            string actualMessage = messageBox.Text;
+            string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
 
             string expectedMessage1 = "Education as been updated";
@@ -219,8 +218,8 @@ namespace CompetitiontaskProjectMars.Pages
                 //Wait for the popup message window to display
                 CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
                 //Get the Popup Message text
-                string ActualMessage = actualMessage.Text;
-                Console.WriteLine(ActualMessage);
+                string actualMessage = ActualMessage.Text;
+                Console.WriteLine(actualMessage);
                 Thread.Sleep(3000);
 
             }
