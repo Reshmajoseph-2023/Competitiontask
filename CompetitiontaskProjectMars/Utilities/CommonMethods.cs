@@ -168,11 +168,13 @@ namespace CompetitiontaskProjectMars.Utilities
 }
 
 
-//private bool ContainsSpecialCharacters(string input)
-//{
 
-//    return !input.All(char.IsLetterOrDigit) || input.Any(char.IsDigit);
-//}
+
+
+
+
+
+
 
 
 

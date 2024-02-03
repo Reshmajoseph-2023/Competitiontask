@@ -1,20 +1,9 @@
 ﻿using CompetitiontaskProjectMars.TestModel;
-using CompetitiontaskProjectMars.Utilities;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using RazorEngine;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CompetitiontaskProjectMars.Utilities.CommonMethods;
-using static System.Collections.Specialized.BitVector32;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace CompetitiontaskProjectMars.Pages
 {
