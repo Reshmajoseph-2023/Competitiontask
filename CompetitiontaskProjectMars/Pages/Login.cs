@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CompetitiontaskProjectMars.Utilities.CommonMethods;
 
 namespace CompetitiontaskProjectMars.Pages
 {
-    public class Login : CommonMethods.CommonDriver
+    public class Login : CommonDriver
     {
         private static IWebElement SignInButton => driver.FindElement(By.XPath("//a[text()='Sign In']"));
         private static IWebElement Email => driver.FindElement(By.Name("email"));

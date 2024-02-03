@@ -1,14 +1,16 @@
 ﻿using CompetitiontaskProjectMars.TestModel;
 using CompetitiontaskProjectMars.Tests;
 using CompetitiontaskProjectMars.Utilities;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using static CompetitiontaskProjectMars.Utilities.CommonMethods;
 
 
 namespace CompetitiontaskProjectMars.Pages
 {
-    public class Educations : CommonMethods.CommonDriver
+    public class Educations : CommonDriver
     {
         private static IWebElement EducationTab => driver.FindElement(By.XPath("//a[text() = 'Education']"));
         private static IWebElement AddNewButton => driver.FindElement(By.XPath("//div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div"));
@@ -30,7 +32,7 @@ namespace CompetitiontaskProjectMars.Pages
 
         public void DeleteExistingRecords()
         {
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
             EducationTab.Click();
 
             try
@@ -67,49 +69,49 @@ namespace CompetitiontaskProjectMars.Pages
         public void AddNewEducation(Education input)
         {
             //Click on Education tab
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
             EducationTab.Click();
 
             //Click AddNew button on Education tab
-            CommonMethods. Wait.WaitToBeClickable(driver, "XPath", "//div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//div[3]/form/div[4]/div/div[2]/div/table/thead/tr/th[6]/div", 3);
             AddNewButton.Click();
 
             //Enter University/Institute Name
-            CommonMethods. Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
+            Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
             CollegeName.Clear();
             CollegeName.SendKeys(input.UniversityName);
 
             //Select the name of the Country
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "country", 3);
+            Wait.WaitToBeVisible(driver, "Name", "country", 3);
             CountryOfCollege.Click();
             CountryOfCollege.SendKeys(input.CountryOfCollege);
 
             //Select the Title
-            CommonMethods. Wait.WaitToBeVisible(driver, "Name", "title", 3);
+            Wait.WaitToBeVisible(driver, "Name", "title", 3);
             Title.Click();
             Title.SendKeys(input.Title);
 
             //Enter the Degree
-            CommonMethods. Wait.WaitToBeVisible(driver, "Name", "degree", 3);
+            Wait.WaitToBeVisible(driver, "Name", "degree", 3);
             Degree.SendKeys(input.Degree);
 
             //Select the year of graduation
-            CommonMethods.Wait.WaitToBeClickable(driver, "Name", "yearOfGraduation", 3);
+            Wait.WaitToBeClickable(driver, "Name", "yearOfGraduation", 3);
             YearOfGraduation.Click();
             YearOfGraduation.SendKeys(input.YearOfGraduation);
 
             //Click on Add button
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//input [contains (@class, 'ui teal button')]", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//input [contains (@class, 'ui teal button')]", 3);
             AddButton.Click();
             Thread.Sleep(2000);
 
             //Wait for the popup message window to display
-            CommonMethods. Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             Thread.Sleep(3000);
 
             string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
-            
+        
             //verify the expected message text
             string expectedMessage1 = "Education has been added";
             string expectedMessage2 = "This information is already exist.";
@@ -131,7 +133,7 @@ namespace CompetitiontaskProjectMars.Pages
         }
         public string GetUniversityName()
         {
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[2]", 3);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[4]/div/div[2]/div/table/tbody/tr/td[2]", 3);
             return newUniversityName.Text;
         }
 
@@ -139,42 +141,42 @@ namespace CompetitiontaskProjectMars.Pages
 
         {
             //Click on Education Icon
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
             EducationTab.Click();
             Thread.Sleep(2000);
 
             PencilIcon.Click();
             Thread.Sleep(2000);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
+            Wait.WaitToBeVisible(driver, "Name", "instituteName", 3);
             CollegeName.Click();
             CollegeName.Clear();
             CollegeName.SendKeys(updateInput.UniversityName);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "country", 3);
+            Wait.WaitToBeVisible(driver, "Name", "country", 3);
             CountryOfCollege.Click();
             CountryOfCollege.SendKeys(updateInput.CountryOfCollege);
 
-            CommonMethods. Wait.WaitToBeVisible(driver, "Name", "title", 3);
+            Wait.WaitToBeVisible(driver, "Name", "title", 3);
             Title.Click();
             Title.SendKeys(updateInput.Title);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "degree", 3);
+            Wait.WaitToBeVisible(driver, "Name", "degree", 3);
             Degree.Click();
             Degree.Clear();
             Degree.SendKeys(updateInput.Degree);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "yearOfGraduation", 3);
+            Wait.WaitToBeVisible(driver, "Name", "yearOfGraduation", 3);
             YearOfGraduation.Click();
             YearOfGraduation.SendKeys(updateInput.YearOfGraduation);
 
             //click on update button
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//input[contains(@value, 'Update')]", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//input[contains(@value, 'Update')]", 3);
             UpdateButton.Click();
             Thread.Sleep(5000);
 
             //Wait for the popup message window to display
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             //Get the POPup Message text
             string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
@@ -192,7 +194,7 @@ namespace CompetitiontaskProjectMars.Pages
             else if (actualMessage == expectedMessage2 || actualMessage == expectedMessage3 || actualMessage == expectedMessage4)
             {
 
-                CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//input[@value= 'Cancel']", 3);
+                Wait.WaitToBeVisible(driver, "XPath", "//input[@value= 'Cancel']", 3);
                 CancelButton.Click();
             }
            
@@ -205,7 +207,7 @@ namespace CompetitiontaskProjectMars.Pages
         public void DeleteEducation(Education deleteInput)
         {
 
-            CommonMethods. Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
             EducationTab.Click();
             Thread.Sleep(2000);
 
@@ -216,7 +218,7 @@ namespace CompetitiontaskProjectMars.Pages
                 Thread.Sleep(4000);
 
                 //Wait for the popup message window to display
-                CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
+                Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
                 //Get the Popup Message text
                 string actualMessage = ActualMessage.Text;
                 Console.WriteLine(actualMessage);
@@ -238,7 +240,7 @@ namespace CompetitiontaskProjectMars.Pages
         
         public void CancelFunction()
         {
-             CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
+             Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 3);
              EducationTab.Click();
              //Click on UpdateIcon
              PencilIcon.Click();
@@ -250,7 +252,7 @@ namespace CompetitiontaskProjectMars.Pages
         }
         public void AssertionCancel()
         {
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Education']", 5);
             //Click on Certification tab
             EducationTab.Click();
 

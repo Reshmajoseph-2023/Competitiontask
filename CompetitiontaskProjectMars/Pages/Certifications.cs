@@ -12,19 +12,20 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CompetitiontaskProjectMars.Utilities.CommonMethods;
 using static System.Collections.Specialized.BitVector32;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace CompetitiontaskProjectMars.Pages
 {
-    public class Certifications : CommonMethods.CommonDriver
+    public class Certifications : CommonDriver
     {
         private static IWebElement CertificationTab => driver.FindElement(By.XPath("//a[text() = 'Certifications']"));
         private static IWebElement AddNew => driver.FindElement(By.XPath("//div[3]/form/div[5]/div[1]/div[2]/div/table/thead/tr/th[4]/div"));
         private static IWebElement CertifiedFrom => driver.FindElement(By.Name("certificationFrom"));
         private static IWebElement CertifiedYear => driver.FindElement(By.Name("certificationYear"));
         private static IWebElement AddButton => driver.FindElement(By.XPath("//div[3]/form/div[5]/div[1]/div[2]/div/div/div[3]/input[1]"));
-        private static IWebElement PencilIcon => driver.FindElement(By.XPath($" //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i"));
+        private static IWebElement PencilIcon => driver.FindElement(By.XPath($" //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody/tr/td[4]/span[1]/i"));
         private static IWebElement UpdateButton => driver.FindElement(By.XPath("//input[contains(@value, 'Update')]"));
         private static IWebElement newCertificateName => driver.FindElement(By.XPath("(//*[@class= 'ui fixed table'])[4]/tbody/tr/td[1]"));
         private static IWebElement ActualMessage => driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
@@ -36,7 +37,7 @@ namespace CompetitiontaskProjectMars.Pages
 
         public void DeleteExistingRecords()
         {
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
             Thread.Sleep(3000);
 
@@ -75,32 +76,32 @@ namespace CompetitiontaskProjectMars.Pages
         public void AddNewCertification(Certification input)
 
         {
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
             Thread.Sleep(3000);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/table/thead/tr/th[4]/div", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/table/thead/tr/th[4]/div", 5);
             AddNew.Click();
             Thread.Sleep(3000);
 
             IWebElement CertificateorAward = driver.FindElement(By.XPath("//div[3]/form/div[5]/div[1]/div[2]/div/div/div[1]/div/input"));
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/div/div[1]/div/input", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/div/div[1]/div/input", 5);
             CertificateorAward.SendKeys(input.certificateorAward);
             Thread.Sleep(3000);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "certificationFrom", 5);
+            Wait.WaitToBeVisible(driver, "Name", "certificationFrom", 5);
             CertifiedFrom.SendKeys(input.certifiedFrom);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "certificationYear", 5);
+            Wait.WaitToBeVisible(driver, "Name", "certificationYear", 5);
             CertifiedYear.Click();
             CertifiedYear.SendKeys(input.certifiedYear);
 
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/div/div[3]/input[1]", 2);
+            Wait.WaitToBeClickable(driver, "XPath", "//div[3]/form/div[5]/div[1]/div[2]/div/div/div[3]/input[1]", 2);
             AddButton.Click();
             Thread.Sleep(5000);
 
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
 
@@ -118,7 +119,7 @@ namespace CompetitiontaskProjectMars.Pages
             else if (actualMessage == expectedMessage2 || actualMessage == expectedMessage3 || actualMessage == expectedMessage4)
             {
 
-                CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//input[@value= 'Cancel']", 10);
+                Wait.WaitToBeClickable(driver, "XPath", "//input[@value= 'Cancel']", 10);
                 CancelButton.Click();
             }
 
@@ -135,10 +136,10 @@ namespace CompetitiontaskProjectMars.Pages
         public void EditCertification(Certification updateInput)
 
         {
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
+            Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
             PencilIcon.Click();
             Thread.Sleep(2000);
 
@@ -147,22 +148,22 @@ namespace CompetitiontaskProjectMars.Pages
             CertificateorAward.SendKeys(updateInput.certificateorAward);
             Thread.Sleep(2000);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "certificationFrom", 3);
+            Wait.WaitToBeVisible(driver, "Name", "certificationFrom", 3);
             CertifiedFrom.Clear();
             CertifiedFrom.SendKeys(updateInput.certifiedFrom);
             Thread.Sleep(2000);
 
-            CommonMethods.Wait.WaitToBeVisible(driver, "Name", "certificationYear", 3);
+            Wait.WaitToBeVisible(driver, "Name", "certificationYear", 3);
             CertifiedYear.Click();
             CertifiedYear.SendKeys(updateInput.certifiedYear);
             Thread.Sleep(2000);
 
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//input[contains(@value, 'Update')]", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//input[contains(@value, 'Update')]", 3);
             UpdateButton.Click();
             Thread.Sleep(2000);
 
             //Wait for the popup message window to display
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 3);
             string actualMessage = ActualMessage.Text;
             Console.WriteLine(actualMessage);
 
@@ -191,7 +192,7 @@ namespace CompetitiontaskProjectMars.Pages
         public void DeleteCertification(Certification deleteInput)
         {
 
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeClickable(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
 
             if (editedCertificationName.Text == deleteInput.certificateorAward)
@@ -201,7 +202,7 @@ namespace CompetitiontaskProjectMars.Pages
                 Thread.Sleep(2000);
 
                 //Wait for the popup message window to display
-                CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 5);
+                Wait.WaitToBeVisible(driver, "XPath", "//div[@class='ns-box-inner']", 5);
                 string actualMessage = ActualMessage.Text;
                 Console.WriteLine(actualMessage);
 
@@ -221,13 +222,13 @@ namespace CompetitiontaskProjectMars.Pages
         //Cancel while a record is updating
         public void CancelFunction()
         {
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
             //Click on UpdateIcon
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
+            Wait.WaitToBeVisible(driver, "XPath", " //*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[5]/div[1]/div[2]/div/table/tbody[last()]/tr/td[4]/span[1]/i", 5);
             PencilIcon.Click();
             //Click on Cancel button
-            CommonMethods.Wait.WaitToBeClickable(driver, "XPath", "//input[@value= 'Cancel']", 10);
+            Wait.WaitToBeClickable(driver, "XPath", "//input[@value= 'Cancel']", 10);
             CancelButton.Click();
 
         }
@@ -235,7 +236,7 @@ namespace CompetitiontaskProjectMars.Pages
         {
 
             //Click on Certification tab
-            CommonMethods.Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
+            Wait.WaitToBeVisible(driver, "XPath", "//a[text() = 'Certifications']", 5);
             CertificationTab.Click();
 
         }

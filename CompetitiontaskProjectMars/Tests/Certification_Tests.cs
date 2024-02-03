@@ -9,21 +9,23 @@ using System.Buffers.Text;
 using System.Drawing.Imaging;
 using System.Linq.Expressions;
 using System.Xml.Linq;
+using static CompetitiontaskProjectMars.Utilities.CommonMethods;
 
 
 namespace CompetitiontaskProjectMars.Tests
 {
    
     [TestFixture]
-    public class Certification_Tests : CommonMethods.CommonDriver
+    public class Certification_Tests :CommonDriver
     {
-         
+        
         Login LoginPageObj;
         Certifications CertificationPageObj;
 
         public static ExtentTest test;
-        public static ExtentReports extent = CommonMethods.ExtentReportsM.getReport();
-                
+        public static ExtentReports extent = ExtentReportsManager.getReport();
+
+        
         public Certification_Tests()
         {
             LoginPageObj = new Login();
@@ -38,7 +40,7 @@ namespace CompetitiontaskProjectMars.Tests
             LoginPageObj.LoginSteps();
         }
 
-        [Test, Order(1)]
+        [Test, Order(1), Description("This test is deleting existing certification records")]
         public void DeleteExistingRecords_Test()
 
         {
@@ -48,13 +50,13 @@ namespace CompetitiontaskProjectMars.Tests
             test.Pass("Test passed");
         }
 
-        [Test, Order(2)]
+        [Test, Order(2), Description("This test is creating a new certification record")]
         public void AddNewCertification_Test()
 
         {
             // Create an ExtentTest instance
             test = extent.CreateTest("AddNewCertification_Test").Info("Test2- Add New Certification record Started");
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\AddValidCertificationDetails.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\AddValidCertificationDetails.json");
             foreach (var  input in item)
             {
                 string certificateName = input.certificateorAward;
@@ -71,13 +73,13 @@ namespace CompetitiontaskProjectMars.Tests
             }
         }
 
-        [Test, Order(3)]
+        [Test, Order(3), Description("This test is checking more than 100 characters are allowed or not")]
         public void InvalidCertificationDetails1_Test()
         {
             
             // Create an ExtentTest instance
             test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test3 Started- InvalidCertificationDetails-Acceptance of more than 100 characters ") ;
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails1.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails1.json");
             try
             {
                 foreach (var input in item)
@@ -102,7 +104,7 @@ namespace CompetitiontaskProjectMars.Tests
 
             {
                 //Log screenshot 
-                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "100 chars-InvalidCertificationDetails1");
+                string screenshotFolder = CaptureScreenshot.SaveScreenshot(driver, "100 chars-InvalidCertificationDetails1");
                 test.Log(Status.Fail, "Screenshot of accepting more than 100characters", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
                 //Log error into extent reports
                 test.Log(Status.Fail, e.ToString());
@@ -110,49 +112,50 @@ namespace CompetitiontaskProjectMars.Tests
             }
          }
 
-        [Test, Order(4)]
+        [Test, Order(4), Description("This test is checking special characters are allowed or not")]
         public void InvalidCertificationDetails2_Test()
         {
+            
             test = extent.CreateTest("InvalidCertificationDetails2_Test").Info("Test4 Started- InvalidCertificationDetails-special characters ");
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails2.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails2.json");
             try
             {
                 foreach (var input in item)
                 {
 
-                   string certificateName = input.certificateorAward;
-                   Console.WriteLine(certificateName);
-                   string certifiedFrom = input.certifiedFrom;
-                   Console.WriteLine(certifiedFrom);
-                   string certifiedYear = input.certifiedYear;
-                   Console.WriteLine(certifiedYear);
-                   CertificationPageObj.AddNewCertification(input);
-                   
-                   string chars = "@%!&";
-                   if (input.certificateorAward.Contains(chars) || input.certifiedFrom.Contains(chars))
-                   {
-                    Assert.Fail("Special characters are not allowed");
-                   }
+                    string certificateName = input.certificateorAward;
+                    Console.WriteLine(certificateName);
+                    string certifiedFrom = input.certifiedFrom;
+                    Console.WriteLine(certifiedFrom);
+                    string certifiedYear = input.certifiedYear;
+                    Console.WriteLine(certifiedYear);
+                    CertificationPageObj.AddNewCertification(input);
 
+                    bool containsSpecialCharacters = CharacterandNumericsTests.ContainsSpecialCharactersAndNumerics(certificateName);
+                    if (containsSpecialCharacters)
+                    {
+                        Assert.Fail("Special characters are not allowed");
+
+                    }
                 }
             }
             catch (Exception e)
 
             {
                 //Log screenshot
-                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "Special characters-InvalidCertificationDetails2");
-                test.Log(Status.Fail, "Screenshot of accepting special characters", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
+                string screenshotFolder = CaptureScreenshot.SaveScreenshot(driver, "Special characters -InvalidCertificationDetails2");
+                test.Log(Status.Fail, "Screenshot of accepting special characters ", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
                 //Log error into extent reports
                 test.Log(Status.Fail, e.ToString());
 
             }
         }
 
-        [Test, Order(5)]
+        [Test, Order(5), Description("This test is checking numerics are allowed or not")]
         public void InvalidCertificationDetails3_Test()
         {
             test = extent.CreateTest("InvalidCertificationDetails3_Test").Info("Test5 Started- InvalidCertificationDetails-Numerics ");
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails3.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\InvalidCertificationDetails3.json");
             try
             {
                 foreach (var input in item)
@@ -165,11 +168,11 @@ namespace CompetitiontaskProjectMars.Tests
                 string certifiedYear = input.certifiedYear;
                 Console.WriteLine(certifiedYear);
                 CertificationPageObj.AddNewCertification(input);
-                
-                string num = "123";
-                if (input.certificateorAward.Contains(num)|| input.certifiedFrom.Contains(num))
+
+                bool containsNumerics = CharacterandNumericsTests.ContainsSpecialCharactersAndNumerics(certificateName);
+                if (containsNumerics)
                 {
-                   Assert.Fail("Numerics are not allowed");
+                     Assert.Fail("Numerics are not allowed");
                 }
 
                 }
@@ -178,7 +181,7 @@ namespace CompetitiontaskProjectMars.Tests
             catch (Exception e)
             {
                 //Log screenshot
-                string screenshotFolder = CommonMethods.CaptureScreenshot.SaveScreenshot(driver, "Numerics-InvalidCertificationDetails3");
+                string screenshotFolder = CaptureScreenshot.SaveScreenshot(driver, "Numerics-InvalidCertificationDetails3");
                 test.Log(Status.Fail, "Screenshot of accepting numerics", MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotFolder + ImageFormat.Png).Build());
                 //Log error into extent reports
                 test.Log(Status.Fail, e.ToString());
@@ -187,12 +190,12 @@ namespace CompetitiontaskProjectMars.Tests
             }
         }
 
-        [Test, Order(6)]
+        [Test, Order(6), Description("This test is editing an existing certification record")]
         public void UpdateCertification_Test()
 
         {
             test = extent.CreateTest("UpdateCertification_Test").Info("Test6 Started- Update Certification ");
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\UpdateCertificate.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\UpdateCertificate.json");
             foreach (var updateInput in item)
             {
                 string updatecertificateName = updateInput.certificateorAward;
@@ -203,14 +206,16 @@ namespace CompetitiontaskProjectMars.Tests
                 Console.WriteLine(certifiedYear);
                 test.Pass("Test passed");
                 CertificationPageObj.EditCertification(updateInput);
+                string updatedCertificateName = CertificationPageObj.EditedCertificationName();
+                Assert.That(updatedCertificateName == updatecertificateName, "Updated certificate and expected certificate does not match");
             }
         }
 
-        [Test, Order(7)]
+        [Test, Order(7), Description("This test is deleting an existing certification record")]
         public void DeleteCertification_Test()
         {
             test = extent.CreateTest("DeleteCertification_Test").Info("Test7 Started- Delete Certification ");
-            List<Certification> item = CommonMethods.LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\DeleteCertificate.json");
+            List<Certification> item = LoadJson.Read<Certification>("E:\\CompetitiontaskProjectMars\\CompetitiontaskProjectMars\\DataFiles\\DeleteCertificate.json");
             foreach (var deleteInput in item)
             {
                 string certificateName = deleteInput.certificateorAward;
@@ -237,7 +242,7 @@ namespace CompetitiontaskProjectMars.Tests
 
         }
 
-        [Test, Order(8)]
+        [Test, Order(8), Description("This test cancel updating the existing record")]
         public void CancelCertification_Test()
         {
             test = extent.CreateTest("InvalidCertificationDetails1_Test").Info("Test8 Started- Cancel Certification ");

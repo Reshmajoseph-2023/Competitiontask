@@ -38,7 +38,7 @@ namespace CompetitiontaskProjectMars.Utilities
 
         //ExtentReports
         #region reports
-        public class ExtentReportsM
+        public class ExtentReportsManager
         {
             private static ExtentReports extent;
 
@@ -148,12 +148,31 @@ namespace CompetitiontaskProjectMars.Utilities
         }
         #endregion
 
+
+        //Special chars and numerics
+        #region Special chars and numerics
+
+        public class CharacterandNumericsTests
+        {
+            public static bool ContainsSpecialCharactersAndNumerics(string input)
+            {
+
+                return !input.All(char.IsLetterOrDigit) || input.Any(char.IsDigit);
+            }
+        }
+        
+        #endregion
+
+
     }
 }
 
 
+//private bool ContainsSpecialCharacters(string input)
+//{
 
-
+//    return !input.All(char.IsLetterOrDigit) || input.Any(char.IsDigit);
+//}
 
 
 
