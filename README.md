@@ -4,13 +4,13 @@ An online skill exchange platform called MarsPortal where you can share your ski
 ![mars project](https://github.com/user-attachments/assets/c2fb94ce-719f-4b7f-9f64-f06e238f4e75)
 
 
-*****my role and duties*****
+*****My role and duties*****
 
-In this project, I have tested the key features related to user Education and Certification listed in the user profile. My role involved preparing and executing manual test cases for Education and Certification within the user profile features in Project Mars. Then I automated test cases using C# and Selenium Web Driver, with a focus on the Nunit framework , incorporated Extent Reporter, JSON file for using test data, also implemented POM pattern in this automation framework.
+In this project, I tested the key features related to user education and certification listed in the user profile. My role involved preparing and executing manual test cases for Education and Certification within the user profile features in Project Mars. Then I automated test cases using C# and Selenium Web Driver, with a focus on the Nunit framework , incorporated Extent Reporter, JSON file for using test data, also implemented POM pattern in this automation framework.
 
 *****Branches*****
 The repository contains the following branches: main
 and feature/branch-name**: Competitionchildbranch1 - It contains manual test cases and automation code.
 
 *****How to Review*****
-To review automation code, select " Competitionchildbranch1 " from the branch dropdown menu above the file list.
+Select " Competitionchildbranch1 " from the branch dropdown menu to review the automation code.
